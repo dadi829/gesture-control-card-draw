@@ -1,0 +1,20 @@
+# 操作系统
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# 依赖
+node_modules/
+
+# 文档
+PRD.md
+*.md
+!README.md
+
+# 环境
+.env
+.env.local
+*.log
