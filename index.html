@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>命运之轮 - 手势抽卡</title>
+
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://storage.googleapis.com">
+  <link rel="preconnect" href="https://storage.googleapis.com" crossorigin>
+  <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/+esm">
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body>
+  <canvas id="particle-canvas" aria-hidden="true"></canvas>
+
+  <div id="card-layer" class="card-layer">
+    <div id="card-area" class="card-area"></div>
+  </div>
+
+  <div id="camera-pip">
+    <video id="webcam" autoplay playsinline></video>
+    <canvas id="hand-canvas"></canvas>
+  </div>
+
+  <div id="hand-cursor" class="hand-cursor">
+    <div class="cursor-ring"></div>
+    <div class="cursor-dot"></div>
+  </div>
+
+  <div id="top-bar">
+    <h1 class="game-title">命运之轮</h1>
+    <p class="game-subtitle" id="status-text">将手伸入摄像头，用食指指向命运之卡</p>
+  </div>
+
+  <div id="bottom-bar">
+    <div class="gesture-hints">
+      <span class="hint" id="hint-open">🖐 手掌浏览</span>
+      <span class="hint" id="hint-point">☝ 食指锁定</span>
+      <span class="hint" id="hint-pinch">🤏 捏合确认</span>
+    </div>
+  </div>
+
+  <div id="result-overlay" class="result-overlay">
+    <div id="result-card" class="result-card">
+      <div class="result-card-inner"></div>
+    </div>
+    <p class="result-hint">张开手掌重新抽卡</p>
+  </div>
+
+  <div id="loader">
+    <div class="loader-ring"></div>
+    <p>初始化手势识别...</p>
+  </div>
+
+  <script type="importmap">
+  {
+    "imports": {
+      "@mediapipe/tasks-vision": "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/+esm"
+    }
+  }
+  </script>
+
+  <script>
+    window.__perf = {
+      startTime: performance.now(),
+      frames: 0,
+      fps: 60,
+      fpsHistory: [],
+      lastFpsTime: performance.now(),
+      marks: {}
+    };
+    (function trackFPS() {
+      window.__perf.frames++;
+      const now = performance.now();
+      const elapsed = now - window.__perf.lastFpsTime;
+      if (elapsed >= 1000) {
+        window.__perf.fps = Math.round(window.__perf.frames * 1000 / elapsed);
+        window.__perf.fpsHistory.push(window.__perf.fps);
+        window.__perf.frames = 0;
+        window.__perf.lastFpsTime = now;
+      }
+      requestAnimationFrame(trackFPS);
+    })();
+  </script>
+
+  <script src="data/answers.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/cards.js"></script>
+  <script src="js/main.js" type="module"></script>
+</body>
+</html>
